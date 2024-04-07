@@ -146,7 +146,7 @@ module IMM(
 );
     reg [31:0] imm_t;
     always @(*) begin
-        casex (inst[31:15])
+        casez (inst[31:15])
             //si12
             `ADDIW,`SLTI,`SLTUI           :imm_t = {{20{inst[21]}},inst[21:10]};
             //ui5
@@ -170,7 +170,7 @@ module ALU_SRC_SEL(
 //对于alu_src1_sel,0表示选寄存器，1表示选立即数
     reg [0:0] alu_src0_sel_t,alu_src1_sel_t;
     always @(*) begin
-        casex(inst[31:15]) 
+        casez(inst[31:15]) 
             `ADDW,`SUBW,`SLT_LAR,`SLTU_LAR,`AND_LAR,`OR_LAR,`XOR_LAR,`SLLW,`SRLW,`SRAW:begin
                 alu_src0_sel_t = 1'b0;
                 alu_src1_sel_t = 1'b0;
@@ -215,7 +215,7 @@ module RF_WE(
 //当指令为本次实验所用指令时，写使能有效
     reg [0:0] rf_we_t;
     always @(*) begin
-        casex(inst[31:15])
+        casez(inst[31:15])
             `ADDW,`ADDIW,`SUBW,`SLT_LAR,`SLTU_LAR ,`AND_LAR,`OR_LAR,`XOR_LAR,`SLLW,`SRLW,`SRAW,`SLLIW,`SRLIW,`SRAIW,`SLTI,`SLTUI,`ANDI,`ORI,`XORI,`LU12IW,`PCADDU12I:
                 rf_we_t = 1'b1;
             default :
