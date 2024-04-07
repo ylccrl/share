@@ -117,7 +117,7 @@ module CPU (
             .dbg_reg_ra(debug_reg_ra),
             .dbg_reg_rd(debug_reg_rd)
     );
-
+    wire [31:0] alu_src0,alu_src1;
     MUX mux0(
         .src0(rf_rd0),
         .src1(cur_pc),
