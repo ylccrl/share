@@ -48,13 +48,13 @@ reg [31:0] temp;
             `SUB    :alu_res = alu_src0 - alu_src1;
             `SLT    :begin
                 if(alu_src0[31]^alu_src1[31])
-                    alu_res = alu_src0[31]==1?1:0;
+                    alu_res = alu_src0[31]==1?32'h1:32'h0;
                 else begin
                     temp = alu_src0 - alu_src1;
-                    alu_res = temp[31];
+                    alu_res = {31'h0,temp[31]};
                 end
             end
-            `SLTU   :alu_res = alu_src0 < alu_src1;
+            `SLTU   :alu_res = {31'h0,alu_src0 < alu_src1};
             `AND    :alu_res = alu_src0 & alu_src1;
             `OR     :alu_res = alu_src0 | alu_src1;
             `XOR    :alu_res = alu_src0 ^ alu_src1;

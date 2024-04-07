@@ -79,7 +79,7 @@ module CPU (
     assign imem_raddr = cur_pc;
     ALU pc_alu(
         .alu_src0(cur_pc),
-        .alu_src1(32'd4),
+        .alu_src1(32'h4),
         .alu_op(`ADD),
         .alu_res(cur_npc)
     );
