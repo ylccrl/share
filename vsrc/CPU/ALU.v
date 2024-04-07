@@ -41,7 +41,8 @@ module ALU (
 
     output      reg         [31 : 0]            alu_res
 );
-reg [4:0] temp;
+reg [31:0] temp_31;
+reg [4:0]  temp_5;
     always @(*) begin
         case(alu_op)
             `ADD    :alu_res = alu_src0 + alu_src1;
@@ -50,11 +51,11 @@ reg [4:0] temp;
                 if(alu_src0[31]^alu_src1[31])
                     alu_res = alu_src0[31]==1?32'h1:32'h0;
                 else begin
-                    temp = alu_src0 - alu_src1;
-                    alu_res = {31'h0,temp[31]};
+                    temp_31 = alu_src0 - alu_src1;
+                    alu_res = {{31'h0},{temp_31[31]}};
                 end
             end
-            `SLTU   :alu_res = {31'h0,alu_src0 < alu_src1};
+            `SLTU   :alu_res = {{31'h0},{alu_src0 < alu_src1}};
             `AND    :alu_res = alu_src0 & alu_src1;
             `OR     :alu_res = alu_src0 | alu_src1;
             `XOR    :alu_res = alu_src0 ^ alu_src1;
@@ -64,8 +65,8 @@ reg [4:0] temp;
                 if(alu_src0[31]==0)
                     alu_res = alu_src0 >> alu_src1[4:0];
                 else begin
-                    temp = 5'b11111-alu_src1[4:0]+5'b1;
-                    alu_res = (alu_src0 >> alu_src1[4:0])|(32'hffffffff<<temp);
+                    temp_5 = 5'b11111-alu_src1[4:0]+5'b1;
+                    alu_res = (alu_src0 >> alu_src1[4:0])|(32'hffffffff<<temp_5);
                 end
             end
             `SRC0   :alu_res = alu_src0;
