@@ -103,7 +103,14 @@ module DECODER (
         .rf_we(rf_we)
     );
     assign rf_ra1 = inst[14:10];
-    assign rf_ra0 = (inst[31:15]==`LU12IW)?5'b0:inst[9:5];
+    reg [4:0] rf_ra0_t;
+    always @(*) begin
+        casez(inst[31:15])
+            `LU12IW:rf_ra0_t = 5'b0;
+            default:rf_ra0_t = inst[9:5];
+        endcase
+    end
+    assign rf_ra0 = rf_ra0_t;
     assign rf_wa = inst[4:0];
     
 endmodule
