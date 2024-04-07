@@ -41,7 +41,7 @@ module ALU (
 
     output      reg         [31 : 0]            alu_res
 );
-reg [31:0] temp;
+reg [4:0] temp;
     always @(*) begin
         case(alu_op)
             `ADD    :alu_res = alu_src0 + alu_src1;
@@ -64,7 +64,7 @@ reg [31:0] temp;
                 if(alu_src0[31]==0)
                     alu_res = alu_src0 >> alu_src1[4:0];
                 else begin
-                    temp = 32-alu_src1[4:0];
+                    temp = 5'b11111-alu_src1[4:0]+5'b1;
                     alu_res = (alu_src0 >> alu_src1[4:0])|(32'hffffffff<<temp);
                 end
             end

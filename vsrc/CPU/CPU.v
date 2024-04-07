@@ -1,7 +1,5 @@
 `include "./include/config.v"
 
-`define HALT_INST           32'h8000_0000
-
 `define ADD                 5'B00000    
 `define SUB                 5'B00010   
 `define SLT                 5'B00100
