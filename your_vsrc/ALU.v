@@ -41,34 +41,18 @@ module ALU (
 
     output      reg         [31 : 0]            alu_res
 );
-reg [31:0] temp_31;
-reg [4:0]  temp_5;
     always @(*) begin
         case(alu_op)
             `ADD    :alu_res = alu_src0 + alu_src1;
             `SUB    :alu_res = alu_src0 - alu_src1;
-            `SLT    :begin
-                if(alu_src0[31]^alu_src1[31])
-                    alu_res = alu_src0[31]==1?32'h1:32'h0;
-                else begin
-                    temp_31 = alu_src0 - alu_src1;
-                    alu_res = {{31'h0},{temp_31[31]}};
-                end
-            end
+            `SLT    :alu_res = $signed(alu_src0)<$signed(alu_src1) ;
             `SLTU   :alu_res = {{31'h0},{alu_src0 < alu_src1}};
             `AND    :alu_res = alu_src0 & alu_src1;
             `OR     :alu_res = alu_src0 | alu_src1;
             `XOR    :alu_res = alu_src0 ^ alu_src1;
             `SLL    :alu_res = alu_src0 << alu_src1[4:0];
             `SRL    :alu_res = alu_src0 >> alu_src1[4:0];
-            `SRA    :begin
-                if(alu_src0[31]==0)
-                    alu_res = alu_src0 >> alu_src1[4:0];
-                else begin
-                    temp_5 = 5'b11111-alu_src1[4:0]+5'b1;
-                    alu_res = (alu_src0 >> alu_src1[4:0])|(32'hffffffff<<temp_5);
-                end
-            end
+            `SRA    :alu_res = $signed(alu_src0) >>> alu_src1[4:0];
             `SRC0   :alu_res = alu_src0;
             `SRC1   :alu_res = alu_src1;
             default :alu_res = 32'H0;
