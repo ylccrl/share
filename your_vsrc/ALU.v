@@ -45,7 +45,7 @@ module ALU (
         case(alu_op)
             `ADD    :alu_res = alu_src0 + alu_src1;
             `SUB    :alu_res = alu_src0 - alu_src1;
-            `SLT    :alu_res = $signed(alu_src0)<$signed(alu_src1) ;
+            `SLT    :alu_res = {{31'h0},{$signed(alu_src0)<$signed(alu_src1)}} ;
             `SLTU   :alu_res = {{31'h0},{alu_src0 < alu_src1}};
             `AND    :alu_res = alu_src0 & alu_src1;
             `OR     :alu_res = alu_src0 | alu_src1;
