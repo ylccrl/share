@@ -1,1 +1,0 @@
-message(FATAL_ERROR "Download proper branch for your platform!")
