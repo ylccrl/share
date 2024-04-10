@@ -29,9 +29,8 @@ module BRANCH(
     input   [31: 0]     br_src0,
     input   [31: 0]     br_src1,
     //npc选择器的控制信号
-    output  [ 0: 0]     npc_sel
+    output reg [ 0: 0]     npc_sel
     );
-    reg [0:0] npc_sel_t;
 always @(*) begin
     //JIRL:1'b1
     //B、BL:1'b1
@@ -39,26 +38,27 @@ always @(*) begin
     //default:1'b0,说明是其他指令，但还存在问题
     case(br_type)
         `JIRL_B  :
-            npc_sel_t = 1'b1;
+            npc_sel = 1'b1;
 
         `B_B,`BL_B     :
-            npc_sel_t = 1'b1;
+            npc_sel = 1'b1;
 
         `BEQ_B   :
-            npc_sel_t = (br_src0==br_src1)?1'b1:1'b0;
+            npc_sel = (br_src0==br_src1)?1'b1:1'b0;
         `BNE_B   :
-            npc_sel_t = (br_src0!=br_src1)?1'b1:1'b0;
+            npc_sel = (br_src0!=br_src1)?1'b1:1'b0;
         `BLT_B   :
-            npc_sel_t = ($signed(br_src0)<$signed(br_src1))?1'b1:1'b0;
+            npc_sel = ($signed(br_src0)<$signed(br_src1))?1'b1:1'b0;
         `BGE_B   :
-            npc_sel_t = ($signed(br_src0)>=$signed(br_src1))?1'b1:1'b0;
+            npc_sel = ($signed(br_src0)>=$signed(br_src1))?1'b1:1'b0;
         `BLTU_B  :
-            npc_sel_t = (br_src0<br_src1)?1'b1:1'b0;
+            npc_sel = (br_src0<br_src1)?1'b1:1'b0;
         `BGEU_B  :
-            npc_sel_t = (br_src0>=br_src1)?1'b1:1'b0;
+            npc_sel = (br_src0>=br_src1)?1'b1:1'b0;
 
         default :
-            npc_sel_t = 1'b0;
+            npc_sel = 1'b0;
     endcase
+
 end
 endmodule
