@@ -32,7 +32,7 @@ module DECODER (
     output                  [31 : 0]            imm,
 
     output                  [ 4 : 0]            rf_ra_k,
-    output                  [ 4 : 0]            rf_ra_k,
+    output                  [ 4 : 0]            rf_ra_j,
     output                  [ 4 : 0]            rf_ra_d,
     output                  [ 0 : 0]            rf_we,
     output                  [ 1 : 0]            rf_wd_sel,
@@ -53,9 +53,9 @@ module DECODER (
         .inst(inst),
         .imm(imm)
     );
-    assign rf_rk_a = inst[14:10];
-    assign rf_rj_a = inst[9:5];
-    assign rf_rd_a = (inst[31:15]==`BL)?5'b1:inst[4:0];
+    assign rf_ra_k = inst[14:10];
+    assign rf_ra_j = inst[9:5];
+    assign rf_ra_d = (inst[31:15]==`BL)?5'b1:inst[4:0];
     RF_DM my_rf_dmem(
         .inst(inst),
         .rf_we(rf_we),
