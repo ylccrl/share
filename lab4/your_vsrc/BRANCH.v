@@ -29,9 +29,9 @@ module BRANCH(
     input   [31: 0]     br_src0,
     input   [31: 0]     br_src1,
     //npc选择器的控制信号
-    output  [ 1: 0]     npc_sel
+    output  [ 0: 0]     npc_sel
     );
-    reg [1:0] npc_sel_t;
+    reg [0:0] npc_sel_t;
 always @(*) begin
     //JIRL:1'b1
     //B、BL:1'b1

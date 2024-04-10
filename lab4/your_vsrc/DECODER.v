@@ -55,7 +55,7 @@ module DECODER (
     );
     assign rf_ra_k = inst[14:10];
     assign rf_ra_j = inst[9:5];
-    assign rf_ra_d = (inst[31:15]==`BL)?5'b1:inst[4:0];
+    assign rf_ra_d = (inst[31:26]==6'b0101_01)?5'b1:inst[4:0];
     RF_DM my_rf_dmem(
         .inst(inst),
         .rf_we(rf_we),
