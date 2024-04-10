@@ -140,7 +140,7 @@ module IMM(
 
             //offs26
             `B,`BL
-                :imm = {{6{inst[9]}},inst[9:0],inst[25:10],2'b0};
+                :imm = {{4{inst[9]}},inst[9:0],inst[25:10],2'b0};
 
             default                                         
                 :imm = 32'b0;

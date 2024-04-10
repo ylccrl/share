@@ -32,29 +32,30 @@ module SLU (
     output      reg         [31 : 0]                rd_out,
     output      reg         [31 : 0]                wd_out
 );
+    wire [1:0] addr_processed = addr%4;
     //读取指令
     always @(*) begin
         case (dmem_access)
-            `LD_B: case(addr%4)
+            `LD_B_D: case()
                 2'b00:rd_out = {{24{rd_in[ 7]}},rd_in[ 7: 0]};
                 2'b01:rd_out = {{24{rd_in[15]}},rd_in[15: 8]};
                 2'b10:rd_out = {{24{rd_in[23]}},rd_in[23:16]};
                 2'b11:rd_out = {{24{rd_in[31]}},rd_in[31:24]};
             endcase
-            `LD_H: case(addr%4)
+            `LD_H_D: case(addr_processed)
                 2'b00:rd_out = {{16{rd_in[15]}},rd_in[15: 0]};
                 2'b01:rd_out = 32'b0;
                 2'b10:rd_out = {{16{rd_in[31]}},rd_in[31:16]};
                 2'b11:rd_out = 32'b0;
             endcase
-            `LD_W: rd_out = (addr%4==2'b0)?rd_in:32'b0;
-            `LD_BU: case(addr%4)
+            `LD_W_D: rd_out = (addr_processed==2'b0)?rd_in:32'b0;
+            `LD_BU_D: case(addr_processed)
                 2'b00:rd_out = {24'b0,rd_in[ 7: 0]};
                 2'b01:rd_out = {24'b0,rd_in[15: 8]};
                 2'b10:rd_out = {24'b0,rd_in[23:16]};
                 2'b11:rd_out = {24'b0,rd_in[31:24]};
             endcase
-            `LD_HU: case(addr%4)
+            `LD_HU_D: case(addr_processed)
                 2'b00:rd_out = {16'b0,rd_in[15: 0]};
                 2'b01:rd_out = 32'b0;
                 2'b10:rd_out = {16'b0,rd_in[31:16]};
@@ -66,19 +67,19 @@ module SLU (
     //写入指令
     always @(*)begin
         case(dmem_access)
-            `ST_B: case(addr%4)
+            `ST_B_D: case(addr_processed)
                 2'b00:wd_out = {rd_in[31: 8],wd_in[ 7: 0]};
                 2'b01:wd_out = {rd_in[31:16],wd_in[ 7: 0],rd_in[ 7: 0]};
                 2'b10:wd_out = {rd_in[31:24],wd_in[ 7: 0],rd_in[15: 0]};
                 2'b11:wd_out = {wd_in[ 7: 0],rd_in[23: 0]};
             endcase
-            `ST_H: case(addr%4)
+            `ST_H_D: case(addr_processed)
                 2'b00:wd_out = {rd_in[31:16],wd_in[15: 0]};
                 2'b01:wd_out = rd_in;
                 2'b10:wd_out = {wd_in[15: 0],rd_in[15: 0]};
                 2'b11:wd_out = rd_in;
             endcase
-            `ST_W: wd_out = (addr%4==2'b0)?wd_in:rd_in;
+            `ST_W_D: wd_out = (addr_processed==2'b0)?wd_in:rd_in;
             default: wd_out = rd_in;
         endcase
     end
