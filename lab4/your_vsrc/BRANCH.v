@@ -54,7 +54,7 @@ always @(*) begin
             npc_sel_t = ($signed(br_src0)>=$signed(br_src1))?1'b1:1'b0;
         `BLTU_B  :
             npc_sel_t = (br_src0<br_src1)?1'b1:1'b0;
-        `BGEU_T  :
+        `BGEU_B  :
             npc_sel_t = (br_src0>=br_src1)?1'b1:1'b0;
 
         default :

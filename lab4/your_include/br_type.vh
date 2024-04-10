@@ -9,6 +9,6 @@
 `define BLT_B      1000
 `define BGE_B      1001
 `define BLTU_B     1010
-`define BGEU_T     1011
+`define BGEU_B    1011
 
 `endif
