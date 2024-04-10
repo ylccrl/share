@@ -73,7 +73,7 @@ module CPU (
     wire [ 3: 0] dmem_access;
     wire [31: 0] imm;
     wire [ 4: 0] rf_ra_k,rf_ra_j,rf_ra_d;
-    wire [ 0: 0] rf_we;
+    wire [ 0: 0] rf_we,br_we;
     wire [ 1: 0] rf_wd_sel;
     wire [ 0: 0] alu_src0_sel,alu_src1_sel;
     wire [ 3: 0] br_type;
@@ -88,6 +88,7 @@ module CPU (
         .rf_ra_d(rf_ra_d),
         .rf_we(rf_we),
         .dmem_we(dmem_we),
+        .br_we(br_we)
         .rf_wd_sel(rf_wd_sel),
         .alu_src0_sel(alu_src0_sel),
         .alu_src1_sel(alu_src1_sel),
@@ -139,6 +140,7 @@ module CPU (
     
     wire [0:0] npc_sel;
     BRANCH my_branch(
+        .br_we(br_we),
         .br_type(br_type),
         .br_src0(rf_rd_j),
         .br_src1(rf_rd_d),

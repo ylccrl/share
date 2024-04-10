@@ -38,6 +38,7 @@ module DECODER (
     output                  [ 1 : 0]            rf_wd_sel,
 
     output                  [ 0 : 0]            dmem_we,
+    output                  [ 0 : 0]            br_we,
 
     output                  [ 0 : 0]            alu_src0_sel,
     output                  [ 0 : 0]            alu_src1_sel,
@@ -56,10 +57,11 @@ module DECODER (
     assign rf_ra_k = inst[14:10];
     assign rf_ra_j = inst[9:5];
     assign rf_ra_d = (inst[31:26]==6'b0101_01)?5'b1:inst[4:0];
-    RF_DM my_rf_dmem(
+    RF_DM_BR my_rf_dm_br(
         .inst(inst),
         .rf_we(rf_we),
         .dmem_we(dmem_we),
+        .br_we(br_we),
         .rf_wd_sel(rf_wd_sel)
     );
 
@@ -148,10 +150,11 @@ module IMM(
     end
 endmodule
 //用于生成寄存器写使能、写选择和内存写使能
-module RF_DM(
+module RF_DM_BR(
     input                   [31 : 0]            inst,
     output        reg       [ 0 : 0]            rf_we,
     output        reg       [ 0 : 0]            dmem_we,
+    output        reg       [ 0 : 0]            br_we,
     output        reg       [ 1 : 0]            rf_wd_sel
 );
     //对于rf_we
@@ -169,41 +172,48 @@ module RF_DM(
                 rf_we = 1'b1;
                 rf_wd_sel = 2'b01;
                 dmem_we = 1'b0;
+                br_we = 1'b0;
             end
             //L指令读取内存，将dmem_rdata写入寄存器
             `LD_B,`LD_H,`LD_W,`LD_BU,`LD_HU:begin
                 rf_we = 1'b1;
                 rf_wd_sel = 2'b10;
                 dmem_we = 1'b0;
+                br_we = 1'b0;
             end
             //特殊的跳转指令，将PC+4写入寄存器
             `JIRL,`BL:begin
                 rf_we = 1'b1;
                 rf_wd_sel = 2'b00;
                 dmem_we = 1'b0;
+                br_we = 1'b1;
             end
             //S指令写入内存，不修改寄存器
             `ST_B,`ST_H,`ST_W:begin
                 rf_we = 1'b0;
                 rf_wd_sel = 2'b11;
                 dmem_we = 1'b1;
+                br_we = 1'b0;
             end
             //以下跳转指令只跳转，不修改寄存器,不修改内存
             `B:begin
                 rf_we = 1'b0;
                 rf_wd_sel = 2'b11;
                 dmem_we = 1'b0;
+                br_we = 1'b1;
             end
             `BEQ,`BNE,`BLT,`BGE,`BLTU,`BGEU:begin
                 rf_we = 1'b0;
                 rf_wd_sel = 2'b11;
                 dmem_we = 1'b0;
+                br_we = 1'b1;
             end
                     
             default :begin
                 rf_we = 1'b0;
                 rf_wd_sel = 2'b11;
                 dmem_we = 1'b0;
+                br_we = 1'b0;
             end
         endcase
     end
