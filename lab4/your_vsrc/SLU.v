@@ -36,7 +36,7 @@ module SLU (
     //读取指令
     always @(*) begin
         case (dmem_access)
-            `LD_B_D: case()
+            `LD_B_D: case(addr_processed)
                 2'b00:rd_out = {{24{rd_in[ 7]}},rd_in[ 7: 0]};
                 2'b01:rd_out = {{24{rd_in[15]}},rd_in[15: 8]};
                 2'b10:rd_out = {{24{rd_in[23]}},rd_in[23:16]};
