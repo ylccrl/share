@@ -198,7 +198,7 @@ module CPU (
             commit_reg          <= commit_if;
             commit_pc_reg       <= cur_pc;       
             commit_inst_reg     <= inst;       
-            commit_halt_reg     <= (inst == HALT_INST);       
+            commit_halt_reg     <= (inst == `HALT_INST);       
             commit_reg_we_reg   <= rf_we;       
             commit_reg_wa_reg   <= rf_ra_d;       
             commit_reg_wd_reg   <= rf_wd;       
