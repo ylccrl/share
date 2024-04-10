@@ -88,6 +88,7 @@ DECODE my_decode(
 );
 
 assign  cur_pc_t = cur_pc;
+assign  cur_npc_t = cur_npc;
 assign  alu_op_t = alu_op;
 assign  imm_t = imm;
 assign  rf_ra0_t = rf_ra0;
