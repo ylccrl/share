@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/sim.dir/main.cpp.o -o sim   -L/home/ubuntu/Desktop/LA32R-Simulation-Framework/simulator  -Wl,-rpath,/home/ubuntu/Desktop/LA32R-Simulation-Framework/simulator -lSIMULATOR rtl_top/libRTL_TOP.a -pthread -lpthread -latomic 

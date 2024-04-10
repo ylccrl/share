@@ -1,8 +1,0 @@
-/home/ubuntu/Desktop/LA32R-Simulation-Framework/build/CMakeFiles/sim.dir
-/home/ubuntu/Desktop/LA32R-Simulation-Framework/build/CMakeFiles/edit_cache.dir
-/home/ubuntu/Desktop/LA32R-Simulation-Framework/build/CMakeFiles/rebuild_cache.dir
-/home/ubuntu/Desktop/LA32R-Simulation-Framework/build/simulator/CMakeFiles/edit_cache.dir
-/home/ubuntu/Desktop/LA32R-Simulation-Framework/build/simulator/CMakeFiles/rebuild_cache.dir
-/home/ubuntu/Desktop/LA32R-Simulation-Framework/build/rtl_top/CMakeFiles/RTL_TOP.dir
-/home/ubuntu/Desktop/LA32R-Simulation-Framework/build/rtl_top/CMakeFiles/edit_cache.dir
-/home/ubuntu/Desktop/LA32R-Simulation-Framework/build/rtl_top/CMakeFiles/rebuild_cache.dir
