@@ -73,7 +73,7 @@ module CPU (
     wire [ 3: 0] dmem_access;
     wire [31: 0] imm;
     wire [ 4: 0] rf_ra_k,rf_ra_j,rf_ra_d;
-    wire [ 0: 0] rf_we,dmem_we;
+    wire [ 0: 0] rf_we;
     wire [ 1: 0] rf_wd_sel;
     wire [ 0: 0] alu_src0_sel,alu_src1_sel;
     wire [ 3: 0] br_type;

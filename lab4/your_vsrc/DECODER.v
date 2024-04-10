@@ -31,9 +31,9 @@ module DECODER (
 
     output                  [31 : 0]            imm,
 
-    output                  [ 4 : 0]            rf_rk_a,
-    output                  [ 4 : 0]            rf_rj_a,
-    output                  [ 4 : 0]            rf_rd_a,
+    output                  [ 4 : 0]            rf_ra_k,
+    output                  [ 4 : 0]            rf_ra_k,
+    output                  [ 4 : 0]            rf_ra_d,
     output                  [ 0 : 0]            rf_we,
     output                  [ 1 : 0]            rf_wd_sel,
 
