@@ -73,10 +73,10 @@ module CPU (
     wire [ 3: 0] dmem_access;
     wire [31: 0] imm;
     wire [ 4: 0] rf_ra_k,rf_ra_j,rf_ra_d;
-    wire [ 0: 0] rf_we,br_we;
+    wire [ 0: 0] rf_we;
     wire [ 1: 0] rf_wd_sel;
     wire [ 0: 0] alu_src0_sel,alu_src1_sel;
-    wire [ 3: 0] br_type;
+    wire [ 5: 0] br_type;
     DECODER my_decoder(
         .inst(inst),
         //输出端口
@@ -88,7 +88,6 @@ module CPU (
         .rf_ra_d(rf_ra_d),
         .rf_we(rf_we),
         .dmem_we(dmem_we),
-        .br_we(br_we),
         .rf_wd_sel(rf_wd_sel),
         .alu_src0_sel(alu_src0_sel),
         .alu_src1_sel(alu_src1_sel),
@@ -96,7 +95,7 @@ module CPU (
     );
 
     wire [31:0] rf_rd_k,rf_rd_j,rf_rd_d;
-    RF my_rf(
+    REG_FILE my_rf(
         .clk       (clk),
         .rf_ra_k    (rf_ra_k),
         .rf_ra_j    (rf_ra_j),
@@ -140,7 +139,6 @@ module CPU (
     
     wire [0:0] npc_sel;
     BRANCH my_branch(
-        .br_we(br_we),
         .br_type(br_type),
         .br_src0(rf_rd_j),
         .br_src1(rf_rd_d),
@@ -151,7 +149,7 @@ module CPU (
     wire [31:0] addr = alu_res;
     assign dmem_addr = addr;
     wire [31:0] rd_out;
-    SLU my_slu(
+    SL_UNIT my_slu(
         .addr(addr),
         .dmem_access(dmem_access),
         .rd_in(dmem_rdata),
@@ -164,7 +162,7 @@ module CPU (
     wire [31:0] pc_add4 = cur_pc + 32'd4;
 
     wire [31:0] cur_npc;
-    NPCMUX my_npc(
+    NPC_MUX my_npc(
         .pc_add4(pc_add4),
         .pc_offset(alu_res),
         .npc_sel(npc_sel),
@@ -173,7 +171,7 @@ module CPU (
     );
 
     wire [31:0] rf_wd;
-    MUX1 my_rf_wd(
+    WD_MUX my_rf_wd(
         .src0(pc_add4),
         .src1(alu_res),
         .src2(rd_out),

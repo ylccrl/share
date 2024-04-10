@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module NPCMUX(
+module NPC_MUX(
     input           [31:0]          pc_add4,
     input           [31:0]          pc_offset,
     input           [ 0:0]          npc_sel,

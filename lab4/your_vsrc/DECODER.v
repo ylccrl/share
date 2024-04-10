@@ -1,7 +1,6 @@
+`include "./include/inst_type.vh"
+`include "./include/logic_type.vh"
 
-
-`include "inst_type.vh"
-`include "logic_type.vh"
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -38,12 +37,11 @@ module DECODER (
     output                  [ 1 : 0]            rf_wd_sel,
 
     output                  [ 0 : 0]            dmem_we,
-    output                  [ 0 : 0]            br_we,
 
     output                  [ 0 : 0]            alu_src0_sel,
     output                  [ 0 : 0]            alu_src1_sel,
 
-    output                  [ 3 : 0]            br_type
+    output                  [ 5 : 0]            br_type
 );
     ALU_OP my_alu_op(
         .inst(inst),
@@ -56,12 +54,12 @@ module DECODER (
     );
     assign rf_ra_k = inst[14:10];
     assign rf_ra_j = inst[9:5];
+    //即JIRL指令,rd恒为1
     assign rf_ra_d = (inst[31:26]==6'b0101_01)?5'b1:inst[4:0];
-    RF_DM_BR my_rf_dm_br(
+    RF_DM my_rf_dm(
         .inst(inst),
         .rf_we(rf_we),
         .dmem_we(dmem_we),
-        .br_we(br_we),
         .rf_wd_sel(rf_wd_sel)
     );
 
@@ -70,8 +68,7 @@ module DECODER (
         .alu_src0_sel(alu_src0_sel),
         .alu_src1_sel(alu_src1_sel)
     );
-    //可能出问题
-    assign br_type = inst[29:26];
+    assign br_type = inst[31:26];
 
   
 endmodule
@@ -82,7 +79,7 @@ module ALU_OP(
 );
     always @(*) begin
         casez (inst[31:15])
-        //19个指令有对应的ALU操作
+            //19个指令有对应的ALU操作
             `ADD_W,`ADDI_W        :alu_op = `ADD;
             `SUB_W               :alu_op = `SUB;
             `SLT_,`SLTI_      :alu_op = `SLT;
@@ -94,17 +91,16 @@ module ALU_OP(
             `SRL_W,`SRLI_W        :alu_op = `SRL;
             `SRA_W,`SRAI_W        :alu_op = `SRA;
 
-        //选立即数
+            //选立即数
             `LU12I_W            :alu_op = `SRC1;
-        //剩下18个的指令都对应ADD
-            
+            //剩下18个的指令都对应ADD
             `PCADDU12I              :alu_op = `ADD;
 
             `LD_B,`LD_H,`LD_W,`ST_B,`ST_H,`ST_W,`LD_BU,`LD_HU   :alu_op = `ADD;
             `JIRL                                       :alu_op = `ADD;
             `B,`BL                                      :alu_op = `ADD;
             `BEQ,`BNE,`BLT,`BGE,`BLTU,`BGEU             :alu_op = `ADD;
-        //未知指令
+            //未知指令
             default :alu_op = `none;
         endcase
     end
@@ -150,11 +146,10 @@ module IMM(
     end
 endmodule
 //用于生成寄存器写使能、写选择和内存写使能
-module RF_DM_BR(
+module RF_DM(
     input                   [31 : 0]            inst,
     output        reg       [ 0 : 0]            rf_we,
     output        reg       [ 0 : 0]            dmem_we,
-    output        reg       [ 0 : 0]            br_we,
     output        reg       [ 1 : 0]            rf_wd_sel
 );
     //对于rf_we
@@ -172,48 +167,41 @@ module RF_DM_BR(
                 rf_we = 1'b1;
                 rf_wd_sel = 2'b01;
                 dmem_we = 1'b0;
-                br_we = 1'b0;
             end
             //L指令读取内存，将dmem_rdata写入寄存器
             `LD_B,`LD_H,`LD_W,`LD_BU,`LD_HU:begin
                 rf_we = 1'b1;
                 rf_wd_sel = 2'b10;
                 dmem_we = 1'b0;
-                br_we = 1'b0;
             end
             //特殊的跳转指令，将PC+4写入寄存器
             `JIRL,`BL:begin
                 rf_we = 1'b1;
                 rf_wd_sel = 2'b00;
                 dmem_we = 1'b0;
-                br_we = 1'b1;
             end
             //S指令写入内存，不修改寄存器
             `ST_B,`ST_H,`ST_W:begin
                 rf_we = 1'b0;
                 rf_wd_sel = 2'b11;
                 dmem_we = 1'b1;
-                br_we = 1'b0;
             end
             //以下跳转指令只跳转，不修改寄存器,不修改内存
             `B:begin
                 rf_we = 1'b0;
                 rf_wd_sel = 2'b11;
                 dmem_we = 1'b0;
-                br_we = 1'b1;
             end
             `BEQ,`BNE,`BLT,`BGE,`BLTU,`BGEU:begin
                 rf_we = 1'b0;
                 rf_wd_sel = 2'b11;
                 dmem_we = 1'b0;
-                br_we = 1'b1;
             end
                     
             default :begin
                 rf_we = 1'b0;
                 rf_wd_sel = 2'b11;
                 dmem_we = 1'b0;
-                br_we = 1'b0;
             end
         endcase
     end
