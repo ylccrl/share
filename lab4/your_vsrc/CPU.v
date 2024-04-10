@@ -88,7 +88,7 @@ module CPU (
         .rf_ra_d(rf_ra_d),
         .rf_we(rf_we),
         .dmem_we(dmem_we),
-        .br_we(br_we)
+        .br_we(br_we),
         .rf_wd_sel(rf_wd_sel),
         .alu_src0_sel(alu_src0_sel),
         .alu_src1_sel(alu_src1_sel),
