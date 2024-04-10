@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+
 
 `include "inst_type.vh"
 `include "logic_type.vh"
