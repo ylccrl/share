@@ -13,7 +13,7 @@ module SEG_REG (
     //IM
     input                   [31 : 0]        inst_in,
     //PCADD4
-    input                   [32 : 0]        pcadd4_in,
+    input                   [31 : 0]        pcadd4_in,
     //output
     output       reg        [31 : 0]        pc_out,
     output       reg        [31 : 0]        inst_out,

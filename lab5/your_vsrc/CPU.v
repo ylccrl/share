@@ -422,7 +422,7 @@ SEG_REG MEM_WB(
     .inst_out(inst_wb),
     .pcadd4_out(pcadd4_wb),
     /* ID */
-    .alu_op_in(alu_opt_mem),
+    .alu_op_in(alu_op_mem),
     .dmem_access_in(dmem_access_mem),
     .imm_in(imm_mem),
     .rf_wa_in(rf_wa_mem),
