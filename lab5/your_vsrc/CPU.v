@@ -55,7 +55,7 @@ always @(posedge clk)begin
         flush <= 0;
     end
         
-    else if(counter == 3)begin
+    else if(counter == 2)begin
         counter <= 0;
         flush <= 1;
     end
