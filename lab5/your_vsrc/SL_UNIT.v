@@ -1,0 +1,71 @@
+`define LD_B_D    4'b0000
+`define LD_H_D    4'b0001
+`define LD_W_D    4'b0010
+`define ST_B_D    4'b0100
+`define ST_H_D    4'b0101
+`define ST_W_D    4'b0110
+`define LD_BU_D   4'b1000
+`define LD_HU_D   4'b1001
+
+module SL_UNIT (
+    input                   [31 : 0]                addr,
+    input                   [ 3 : 0]                dmem_access,
+
+    input                   [31 : 0]                rd_in,
+    input                   [31 : 0]                wd_in,
+
+    output      reg         [31 : 0]                rd_out,
+    output      reg         [31 : 0]                wd_out
+);
+    //读取指令
+    always @(*) begin
+        case (dmem_access)
+            `LD_B_D: case(addr[1:0])
+                2'b00:rd_out = {{24{rd_in[ 7]}},rd_in[ 7: 0]};
+                2'b01:rd_out = {{24{rd_in[15]}},rd_in[15: 8]};
+                2'b10:rd_out = {{24{rd_in[23]}},rd_in[23:16]};
+                2'b11:rd_out = {{24{rd_in[31]}},rd_in[31:24]};
+            endcase
+            `LD_H_D: case(addr[1:0])
+                2'b00:rd_out = {{16{rd_in[15]}},rd_in[15: 0]};
+                2'b01:rd_out = 32'b0;
+                2'b10:rd_out = {{16{rd_in[31]}},rd_in[31:16]};
+                2'b11:rd_out = 32'b0;
+            endcase
+            `LD_W_D: rd_out = (addr[1:0]==2'b0)?rd_in:32'b0;
+            `LD_BU_D: case(addr[1:0])
+                2'b00:rd_out = {24'b0,rd_in[ 7: 0]};
+                2'b01:rd_out = {24'b0,rd_in[15: 8]};
+                2'b10:rd_out = {24'b0,rd_in[23:16]};
+                2'b11:rd_out = {24'b0,rd_in[31:24]};
+            endcase
+            `LD_HU_D: case(addr[1:0])
+                2'b00:rd_out = {16'b0,rd_in[15: 0]};
+                2'b01:rd_out = 32'b0;
+                2'b10:rd_out = {16'b0,rd_in[31:16]};
+                2'b11:rd_out = 32'b0;
+            endcase
+            default: rd_out = 32'b0;
+        endcase
+    end
+    //写入指令
+    always @(*)begin
+        case(dmem_access)
+            `ST_B_D: case(addr[1:0])
+                2'b00:wd_out = {rd_in[31: 8],wd_in[ 7: 0]};
+                2'b01:wd_out = {rd_in[31:16],wd_in[ 7: 0],rd_in[ 7: 0]};
+                2'b10:wd_out = {rd_in[31:24],wd_in[ 7: 0],rd_in[15: 0]};
+                2'b11:wd_out = {wd_in[ 7: 0],rd_in[23: 0]};
+            endcase
+            `ST_H_D: case(addr[1:0])
+                2'b00:wd_out = {rd_in[31:16],wd_in[15: 0]};
+                2'b01:wd_out = rd_in;
+                2'b10:wd_out = {wd_in[15: 0],rd_in[15: 0]};
+                2'b11:wd_out = rd_in;
+            endcase
+            `ST_W_D: wd_out = (addr[1:0]==2'b0)?wd_in:rd_in;
+            default: wd_out = rd_in;
+        endcase
+    end
+
+endmodule
