@@ -154,7 +154,7 @@ SEG_REG IF_ID(
         .alu_op(alu_op_id),
         .dmem_access(dmem_access_id),
         .imm(imm_id),
-        .rf_rd0(rf_ra0_id),
+        .rf_ra0(rf_ra0_id),
         .rf_ra1(rf_ra1_id),
         .rf_wa(rf_wa_id),
         .rf_we(rf_we_id),
