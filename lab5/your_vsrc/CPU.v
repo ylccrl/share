@@ -47,24 +47,8 @@ module CPU (
     input                   [ 4 : 0]            debug_reg_ra,   // TODO
     output                  [31 : 0]            debug_reg_rd    // TODO
 );
-reg [0:0] flush;
-reg [1:0] counter;
-always @(posedge clk)begin
-    if(rst)begin
-        counter <= 0;
-        flush <= 0;
-    end
-        
-    else if(counter == 2)begin
-        counter <= 0;
-        flush <= 1;
-    end
-    else begin
-        counter <= counter + 1;
-        flush <= 0;
-    end
+wire [0:0] flush = (inst_ex==32'h0280_0000)?1'b1:1'b0;
 
-end
 /* IF */
     wire [ 0: 0] commit_if = 1'H1;
     wire [31: 0] pc_if,inst_if,pcadd4_if;
