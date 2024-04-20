@@ -6,7 +6,7 @@ module SEG_REG (
     input                   [ 0 : 0]        stall,
     /* COMMIT */
     input                   [ 0 : 0]        commit_in,
-    output                  [ 0 : 0]        commit_out,
+    output       reg        [ 0 : 0]        commit_out,
     /* IF */
     //PC
     input                   [31 : 0]        pc_in,
@@ -62,6 +62,7 @@ module SEG_REG (
 
     always @(posedge clk) begin
         if(rst)begin
+            commit_out <= 1'b0;
             /* IF */
             pc_out <= 32'h1c00_0000;
             inst_out <= 32'h0280_0000;
@@ -91,6 +92,7 @@ module SEG_REG (
         end
         else if(en)begin
             if(flush)begin
+                commit_out <= 1'b0;
                 /* IF */
                 pc_out <= 32'h1c00_0000;
                 inst_out <= 32'h0280_0000;
@@ -119,6 +121,7 @@ module SEG_REG (
                 /* WB */
             end
             else if(stall)begin
+                commit_out <= commit_out;
                 /* IF */
                 pc_out <= pc_out;
                 inst_out <= inst_out;
@@ -147,6 +150,7 @@ module SEG_REG (
                 /* WB */
             end
             else begin
+                commit_out <= commit_in;
                 /* IF */
                 pc_out <= pc_in;
                 inst_out <= inst_in;
@@ -176,6 +180,7 @@ module SEG_REG (
             end
         end
         else begin
+            commit_out <= commit_out;
             /* IF */
             pc_out <= pc_out;
             inst_out <= inst_out;

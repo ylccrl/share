@@ -47,7 +47,24 @@ module CPU (
     input                   [ 4 : 0]            debug_reg_ra,   // TODO
     output                  [31 : 0]            debug_reg_rd    // TODO
 );
+reg [0:0] flush;
+reg [1:0] counter;
+always @(posedge clk)begin
+    if(rst)begin
+        counter <= 0;
+        flush <= 0;
+    end
+        
+    else if(counter == 3)begin
+        counter <= 0;
+        flush <= 1;
+    end
+    else begin
+        counter <= counter + 1;
+        flush <= 0;
+    end
 
+end
 /* IF */
     wire [ 0: 0] commit_if = 1'H1;
     wire [31: 0] pc_if,inst_if,pcadd4_if;
@@ -86,7 +103,7 @@ SEG_REG IF_ID(
     .clk(clk),
     .rst(rst),
     .en(global_en),
-    .flush(1'b0),
+    .flush(flush),
     .stall(1'b0),
     /* COMMIT */
     .commit_in(commit_if),
@@ -206,7 +223,7 @@ SEG_REG ID_EX(
     .clk(clk),
     .rst(rst),
     .en(global_en),
-    .flush(1'b0),
+    .flush(flush),
     .stall(1'b0),
     /* COMMIT */
     .commit_in(commit_id),
