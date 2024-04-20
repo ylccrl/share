@@ -95,7 +95,7 @@ module SEG_REG (
                 commit_out <= 1'b0;
                 /* IF */
                 pc_out <= 32'h1c00_0000;
-                inst_out <= 32'h0280_0000;
+                inst_out <= 32'h0;
                 pcadd4_out <= 32'h1c00_0000 + 32'd4;
                 /* ID */
                 //DECODER
