@@ -47,7 +47,7 @@ module CPU (
     input                   [ 4 : 0]            debug_reg_ra,   // TODO
     output                  [31 : 0]            debug_reg_rd    // TODO
 );
-wire [0:0] flush = (inst_ex==32'h0280_0000)?1'b1:1'b0;
+wire [0:0] flush = (inst_id==32'h0280_0000)?1'b1:1'b0;
 
 /* IF */
     wire [ 0: 0] commit_if = 1'H1;
