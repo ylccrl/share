@@ -199,9 +199,9 @@ wire [ 0: 0] alu_src0_sel_ex,alu_src1_sel_ex;
 wire [ 5: 0] br_type_ex;
 wire [31: 0] rf_rd0_ex,rf_rd1_ex;
 
-wire [31: 0] alu_res_id = ALU_RES_INIT;
-wire [31: 0] rd_out_id = RD_OUT_INIT;
-wire [31: 0] dmem_wdata_id = DMEM_WDATA_INIT;
+wire [31: 0] alu_res_id = `ALU_RES_INIT;
+wire [31: 0] rd_out_id = `RD_OUT_INIT;
+wire [31: 0] dmem_wdata_id = `DMEM_WDATA_INIT;
 SEG_REG ID_EX(
     .clk(clk),
     .rst(rst),
@@ -239,7 +239,7 @@ SEG_REG ID_EX(
     .rf_wd_sel_out(rf_wd_sel_ex),
     .dmem_we_out(dmem_we_ex),
     .alu_src0_sel_out(alu_src0_sel_ex),
-    .alu_src1_sel_ou(alu_src1_sel_ex),
+    .alu_src1_sel_out(alu_src1_sel_ex),
     .br_type_out(br_type_ex),
 
     .rf_rd0_in(rf_ra0_id),
@@ -314,8 +314,8 @@ wire [ 5: 0] br_type_mem;
 wire [31: 0] rf_rd0_mem,rf_rd1_mem;
 wire [31: 0] alu_res_mem;
 
-wire [31: 0] rd_out_ex = RD_OUT_INIT;
-wire [31: 0] dmem_wdata_ex = DMEM_WDATA_INIT;
+wire [31: 0] rd_out_ex = `RD_OUT_INIT;
+wire [31: 0] dmem_wdata_ex = `DMEM_WDATA_INIT;
 SEG_REG EX_MEM(
     .clk(clk),
     .rst(rst),
@@ -334,7 +334,7 @@ SEG_REG EX_MEM(
     .inst_out(inst_mem),
     .pcadd4_out(pcadd4_mem),
     /* ID */
-    .alu_op_in(alu_opt_ex),
+    .alu_op_in(alu_op_ex),
     .dmem_access_in(dmem_access_ex),
     .imm_in(imm_ex),
     .rf_wa_in(rf_wa_ex),
@@ -345,7 +345,7 @@ SEG_REG EX_MEM(
     .alu_src1_sel_in(alu_src1_sel_ex),
     .br_type_in(br_type_ex),
 
-    .alu_op_out(alu_opt_mem),
+    .alu_op_out(alu_op_mem),
     .dmem_access_out(dmem_access_mem),
     .imm_out(imm_mem),
     .rf_wa_out(rf_wa_mem),
@@ -433,7 +433,7 @@ SEG_REG MEM_WB(
     .alu_src1_sel_in(alu_src1_sel_mem),
     .br_type_in(br_type_mem),
 
-    .alu_op_out(alu_opt_wb),
+    .alu_op_out(alu_op_wb),
     .dmem_access_out(dmem_access_wb),
     .imm_out(imm_wb),
     .rf_wa_out(rf_wa_wb),
