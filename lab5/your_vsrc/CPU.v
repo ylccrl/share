@@ -4,7 +4,7 @@
 `define DMEM_ACCESS_INIT    4'B1010
 `define IMM_INIT            32'B0
 `define RF_WA_INIT          5'B0
-`define RF_WE_INIT          5'B1
+`define RF_WE_INIT          1'B1
 `define RF_WD_SEL_INIT      2'B01
 `define DMEM_WE_INIT        1'B0
 `define ALU_SRC0_SEL_INIT   1'B0
@@ -100,7 +100,7 @@ SEG_REG IF_ID(
     .inst_out(inst_id),
     .pcadd4_out(pcadd4_id),
     /* ID */
-    .alu_op_in(alu_opt_if),
+    .alu_op_in(alu_op_if),
     .dmem_access_in(dmem_access_if),
     .imm_in(imm_if),
     .rf_wa_in(rf_wa_if),
@@ -242,8 +242,8 @@ SEG_REG ID_EX(
     .alu_src1_sel_out(alu_src1_sel_ex),
     .br_type_out(br_type_ex),
 
-    .rf_rd0_in(rf_ra0_id),
-    .rf_rd1_in(rf_ra1_id),
+    .rf_rd0_in(rf_rd0_id),
+    .rf_rd1_in(rf_rd1_id),
 
     .rf_rd0_out(rf_rd0_ex),
     .rf_rd1_out(rf_rd1_ex),
