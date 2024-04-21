@@ -89,8 +89,8 @@ module DECODER (
         .inst(inst),
         .imm(imm)
     );
-    //当指令为B-type时，rf_ra1为rd（B、BL不需要寄存器，所以值无所谓）
-    assign rf_ra1 = (inst[31:28]==4'b0101||inst[31:28]==4'b0110)?inst[4:0]:inst[14:10];
+    //当指令不需要rk时，ra1为rd的地址
+    assign rf_ra1 = (inst[31:20]!=12'b0000_0000_0001)?inst[4:0]:inst[14:10];
     //rj始终为rj
     assign rf_ra0 = inst[9:5];
     //即BL指令,rd恒为1

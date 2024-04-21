@@ -47,7 +47,7 @@ module CPU (
     input                   [ 4 : 0]            debug_reg_ra,   // TODO
     output                  [31 : 0]            debug_reg_rd    // TODO
 );
-wire [0:0] flush = 1'b0;
+wire [0:0] flush;
 
 /* IF */
     wire [ 0: 0] commit_if = 1'H1;
@@ -299,7 +299,7 @@ SEG_REG ID_EX(
 
         .npc(npc_ex)
     );
-
+    assign flush = (npc_sel_ex==1'b1)?1'b1:1'b0;
 
 wire [ 0: 0] commit_mem;
 wire [31: 0] pc_mem,inst_mem,pcadd4_mem;
