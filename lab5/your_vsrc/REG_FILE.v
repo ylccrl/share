@@ -33,5 +33,5 @@ module REG_FILE (
     assign rf_rd0 = (we&&(rf_ra0==rf_wa))?rf_wd:reg_file[rf_ra0];
     assign rf_rd1 = (we&&(rf_ra1==rf_wa))?rf_wd:reg_file[rf_ra1];
 
-    assign dbg_reg_rd = (we&&(dbg_reg_ra==rf_wa))?rf_wd:reg_file[dbg_reg_ra];
+    assign dbg_reg_rd = reg_file[dbg_reg_ra];
 endmodule
