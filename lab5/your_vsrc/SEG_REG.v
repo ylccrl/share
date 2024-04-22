@@ -88,6 +88,7 @@ module SEG_REG (
             /* MEM */
             //SL_UNIT
             rd_out_out <= 32'b0;
+            dmem_wdata_out <= 32'b0;
             /* WB */
         end
         else if(en)begin
@@ -118,6 +119,7 @@ module SEG_REG (
                 /* MEM */
                 //SL_UNIT
                 rd_out_out <= 32'b0;
+                dmem_wdata_out <= 32'b0;
                 /* WB */
             end
             else if(stall)begin
@@ -147,6 +149,7 @@ module SEG_REG (
                 /* MEM */
                 //SL_UNIT
                 rd_out_out <= rd_out_out;
+                dmem_wdata_out <= dmem_wdata_out;
                 /* WB */
             end
             else begin
@@ -176,6 +179,7 @@ module SEG_REG (
                 /* MEM */
                 //SL_UNIT
                 rd_out_out <= rd_out_in;
+                dmem_wdata_out <= dmem_wdata_in;
                 /* WB */
             end
         end
@@ -206,6 +210,7 @@ module SEG_REG (
             /* MEM */
             //SL_UNIT
             rd_out_out <= rd_out_out;
+            dmem_wdata_out <= dmem_wdata_out;
             /* WB */
         end
     end
