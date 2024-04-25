@@ -78,6 +78,8 @@ module SEG_REG (
             alu_op_out          <= 5'B01001;//ADD
             dmem_access_out     <= 4'b1010;//
             imm_out             <= 32'b0;//
+            rf_ra0_out          <= 5'b0
+            rf_ra1_out          <= 5'b0
             rf_wa_out           <= 5'b0;//
             rf_we_out           <= 1'b1;
             rf_wd_sel_out       <= 2'b01;
@@ -109,6 +111,8 @@ module SEG_REG (
                 alu_op_out          <= 5'B01001;//ADD
                 dmem_access_out     <= 4'b1010;//
                 imm_out             <= 32'b0;//
+                rf_ra0_out          <= 5'b0;
+                rf_ra1_out          <= 5'b0;
                 rf_wa_out           <= 5'b0;//
                 rf_we_out           <= 1'b1;
                 rf_wd_sel_out       <= 2'b01;
@@ -139,6 +143,8 @@ module SEG_REG (
                 alu_op_out          <= alu_op_out;
                 dmem_access_out     <= dmem_access_out;
                 imm_out             <= imm_out;
+                rf_ra0_out          <= rf_ra0_out;
+                rf_ra1_out          <= rf_ra1_out;
                 rf_wa_out           <= rf_wa_out;
                 rf_we_out           <= rf_we_out;
                 rf_wd_sel_out       <= rf_wd_sel_out;
@@ -169,6 +175,8 @@ module SEG_REG (
                 alu_op_out          <= alu_op_in;
                 dmem_access_out     <= dmem_access_in;
                 imm_out             <= imm_in;
+                rf_ra0_out          <= rf_ra0_in;
+                rf_ra1_out          <= rf_ra1_in;
                 rf_wa_out           <= rf_wa_in;
                 rf_we_out           <= rf_we_in;
                 rf_wd_sel_out       <= rf_wd_sel_in;
@@ -200,6 +208,8 @@ module SEG_REG (
             alu_op_out          <= alu_op_out;
             dmem_access_out     <= dmem_access_out;
             imm_out             <= imm_out;
+            rf_ra0_out          <= rf_ra0_out;
+            rf_ra1_out          <= rf_ra1_out;
             rf_wa_out           <= rf_wa_out;
             rf_we_out           <= rf_we_out;
             rf_wd_sel_out       <= rf_wd_sel_out;
