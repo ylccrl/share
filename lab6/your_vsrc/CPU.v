@@ -272,16 +272,20 @@ SEG_REG ID_EX(
 );
 
 /* EX */
+    wire [31 : 0] rf_rd0_mux,rf_rd0_mux;
+    assign rf_rd0_mux = rf_rd0_fe?rf_rd0_fd:rf_rd0_ex;
+    assign rf_rd1_mux = rf_rd1_fe?rf_rd1_fd:rf_rd1_ex;
+
     wire [31: 0] alu_src0_ex,alu_src1_ex;
     MUX2_1 mux0(
-        .src0(rf_rd0_ex),
+        .src0(rf_rd0_mux),
         .src1(pc_ex),
         .sel(alu_src0_sel_ex),
 
         .res(alu_src0_ex)
     );
     MUX2_1 mux1(
-        .src0(rf_rd1_ex),
+        .src0(rf_rd1_mux),
         .src1(imm_ex),
         .sel(alu_src1_sel_ex),
 
@@ -493,7 +497,9 @@ SEG_REG MEM_WB(
         .res(rf_wd_wb)
     );
 /* */
-    wire [ 31 : 0] rf_wd_mem = alu_res_mem;
+    wire [31 : 0] rf_wd_mem = alu_res_mem;
+    wire [ 0 : 0] rf_rd0_fe,rf_rd1_fe;
+    wire [31 : 0] rf_rd0_fd,rf_rd1_fd;
     FOWARDING my_foward(
         .rf_we_mem(rf_we_mem),
         .rf_we_wb(rf_we_wb),
