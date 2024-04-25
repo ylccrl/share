@@ -49,7 +49,6 @@ module CPU (
     input                   [ 4 : 0]            debug_reg_ra,   // TODO
     output                  [31 : 0]            debug_reg_rd    // TODO
 );
-wire [0:0] flush;
 
 /* IF */
     wire [ 0: 0] commit_if = 1'H1;
@@ -61,7 +60,7 @@ wire [0:0] flush;
             .rst    (rst        ),
             .en     (global_en  ),    // 当 global_en 为高电平时，PC 才会更新，CPU 才会执行指令。
             .npc    (npc_ex     ),
-            .stall  (1'b0       ),
+            .stall  (stall_pc   ),
             .flush  (1'b0       ),
             .pc     (pc_if      )
     );
@@ -91,8 +90,8 @@ SEG_REG IF_ID(
     .clk(clk),
     .rst(rst),
     .en(global_en),
-    .flush(1'b0),
-    .stall(1'b0),
+    .flush(flush_if_id),
+    .stall(stall_if_id),
     /* COMMIT */
     .commit_in(commit_if),
     .commit_out(commit_id),
@@ -215,7 +214,7 @@ SEG_REG ID_EX(
     .clk(clk),
     .rst(rst),
     .en(global_en),
-    .flush(1'b0),
+    .flush(flush_id_ex),
     .stall(1'b0),
     /* COMMIT */
     .commit_in(commit_id),
@@ -315,7 +314,6 @@ SEG_REG ID_EX(
 
         .res(npc_ex)
     );
-    assign flush = (npc_sel_ex==1'b1)?1'b1:1'b0;
 
 wire [ 0: 0] commit_mem;
 wire [31: 0] pc_mem,inst_mem,pcadd4_mem;
@@ -514,6 +512,21 @@ SEG_REG MEM_WB(
         .rf_rd1_fe(rf_rd1_fe),
         .rf_rd0_fd(rf_rd0_fd),
         .rf_rd1_fd(rf_rd1_fd)
+    );
+
+    wire [ 0 : 0] stall_pc,stall_if_id,flush_if_id,flush_id_ex;
+    SEG_CTRL my_seg_ctrl(
+        .rf_we_ex(rf_we_ex),
+        .rf_wd_sel_ex(rf_wd_sel_ex),
+        .rf_wa_ex(rf_wa_ex),
+        .rf_ra0_id(rf_ra0_id),
+        .rf_ra1_id(rf_ra1_id),
+        .npc_sel_ex(npc_sel_ex),
+
+        .stall_pc(stall_pc),
+        .stall_if_id(stall_if_id),
+        .flush_if_id(flush_if_id),
+        .flush_id_ex(flush_id_ex)
     );
 
     // Commit
