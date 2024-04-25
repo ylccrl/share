@@ -91,7 +91,7 @@ SEG_REG IF_ID(
     .clk(clk),
     .rst(rst),
     .en(global_en),
-    .flush(flush),
+    .flush(1'b0),
     .stall(1'b0),
     /* COMMIT */
     .commit_in(commit_if),
@@ -215,7 +215,7 @@ SEG_REG ID_EX(
     .clk(clk),
     .rst(rst),
     .en(global_en),
-    .flush(flush),
+    .flush(1'b0),
     .stall(1'b0),
     /* COMMIT */
     .commit_in(commit_id),
