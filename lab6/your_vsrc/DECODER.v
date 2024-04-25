@@ -258,12 +258,8 @@ module ALU_SRC_SEL(
                 alu_src0_sel = 1'b0;
                 alu_src1_sel = 1'b0;
             end
-            //选rj和rd
-            `BEQ,`BNE,`BLT,`BGE,`BLTU,`BGEU:begin
-                alu_src0_sel = 1'b0;
-                alu_src1_sel = 1'b0;
-            end
-
+            
+            
             //选rj和立即数
             `SLLI_W,`SRLI_W,`SRAI_W,`SLTI_,`SLTUI_,`ADDI_W,`ANDI_,`ORI_,`XORI_:begin
                 alu_src0_sel = 1'b0;
@@ -282,6 +278,10 @@ module ALU_SRC_SEL(
             `LU12I_W:begin
                     alu_src0_sel = 1'b0;
                     alu_src1_sel = 1'b1;
+            end
+            `BEQ,`BNE,`BLT,`BGE,`BLTU,`BGEU:begin
+                alu_src0_sel = 1'b1;
+                alu_src1_sel = 1'b1;
             end
 
         //选PC和立即数
