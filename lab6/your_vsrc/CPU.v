@@ -272,7 +272,7 @@ SEG_REG ID_EX(
 );
 
 /* EX */
-    wire [31 : 0] rf_rd0_mux,rf_rd0_mux;
+    wire [31 : 0] rf_rd0_mux,rf_rd1_mux;
     assign rf_rd0_mux = rf_rd0_fe?rf_rd0_fd:rf_rd0_ex;
     assign rf_rd1_mux = rf_rd1_fe?rf_rd1_fd:rf_rd1_ex;
 
