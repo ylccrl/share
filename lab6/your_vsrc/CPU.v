@@ -206,7 +206,7 @@ wire [ 1: 0] rf_wd_sel_ex;
 wire [ 0: 0] dmem_we_ex;
 wire [ 0: 0] alu_src0_sel_ex,alu_src1_sel_ex;
 wire [ 5: 0] br_type_ex;
-wire [31: 0] rf_rd0_ex,rf_rd1_ex;
+wire [31: 0] rf_rd0_raw_ex,rf_rd1_raw_ex;
 
 wire [31: 0] alu_res_id = `ALU_RES_INIT;
 wire [31: 0] rd_out_id = `RD_OUT_INIT;
@@ -258,8 +258,8 @@ SEG_REG ID_EX(
     .rf_rd0_in(rf_rd0_id),
     .rf_rd1_in(rf_rd1_id),
 
-    .rf_rd0_out(rf_rd0_ex),
-    .rf_rd1_out(rf_rd1_ex),
+    .rf_rd0_out(rf_rd0_raw_ex),
+    .rf_rd1_out(rf_rd1_raw_ex),
     /* EX */
     .alu_res_in(alu_res_id),
     .alu_res_out(),
@@ -272,20 +272,20 @@ SEG_REG ID_EX(
 );
 
 /* EX */
-    wire [31 : 0] rf_rd0_mux,rf_rd1_mux;
-    assign rf_rd0_mux = rf_rd0_fe?rf_rd0_fd:rf_rd0_ex;
-    assign rf_rd1_mux = rf_rd1_fe?rf_rd1_fd:rf_rd1_ex;
+    wire [31 : 0] rf_rd0_ex,rf_rd1_ex;
+    assign rf_rd0_ex = rf_rd0_fe?rf_rd0_fd:rf_rd0_raw_ex;
+    assign rf_rd1_ex = rf_rd1_fe?rf_rd1_fd:rf_rd1_raw_ex;
 
     wire [31: 0] alu_src0_ex,alu_src1_ex;
     MUX2_1 mux0(
-        .src0(rf_rd0_mux),
+        .src0(rf_rd0_ex),
         .src1(pc_ex),
         .sel(alu_src0_sel_ex),
 
         .res(alu_src0_ex)
     );
     MUX2_1 mux1(
-        .src0(rf_rd1_mux),
+        .src0(rf_rd1_ex),
         .src1(imm_ex),
         .sel(alu_src1_sel_ex),
 
