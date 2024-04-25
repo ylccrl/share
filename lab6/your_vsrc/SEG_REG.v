@@ -78,8 +78,8 @@ module SEG_REG (
             alu_op_out          <= 5'B01001;//ADD
             dmem_access_out     <= 4'b1010;//
             imm_out             <= 32'b0;//
-            rf_ra0_out          <= 5'b0
-            rf_ra1_out          <= 5'b0
+            rf_ra0_out          <= 5'b0;
+            rf_ra1_out          <= 5'b0;
             rf_wa_out           <= 5'b0;//
             rf_we_out           <= 1'b1;
             rf_wd_sel_out       <= 2'b01;
