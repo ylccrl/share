@@ -424,12 +424,13 @@ wire [31: 0] alu_res_wb;
 wire [31: 0] rd_out_wb;
 wire [31: 0] dmem_wdata_wb;
 
+wire [ 0 : 0] stall_mem_wb = inst_wb == `HALT_INST;
 SEG_REG MEM_WB(
     .clk(clk),
     .rst(rst),
     .en(global_en),
     .flush(1'b0),
-    .stall(1'b0),
+    .stall(stall_mem_wb),
     /* COMMIT */
     .commit_in(commit_mem),
     .commit_out(commit_wb),
